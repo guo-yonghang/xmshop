@@ -1,0 +1,16 @@
+{
+  "id": "4442385",
+  "name": "xmshop",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "flutter xmshop project",
+  "glyphs": [
+    {
+      "icon_id": "34303445",
+      "name": "小米",
+      "font_class": "xiaomi",
+      "unicode": "e720",
+      "unicode_decimal": 59168
+    }
+  ]
+}
