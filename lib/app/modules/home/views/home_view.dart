@@ -1,14 +1,16 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 import 'package:xmshop/app/service/screenAdapter.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import '../controllers/home_controller.dart';
 import '../../../service/keepAliceWrapper.dart';
 import '../../../service/ityingFonts.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({Key? key}) : super(key: key);
-
+  //导航栏
   Widget appBar() {
     return Positioned(
       top: 0,
@@ -70,7 +72,8 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  focusContent() {
+  //轮播图
+  Widget focus() {
     return SizedBox(
       width: ScreenAdapter.width(1080),
       height: ScreenAdapter.height(682),
@@ -92,7 +95,8 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  bannerContent() {
+  //banner
+  Widget banner() {
     return SizedBox(
       width: ScreenAdapter.width(1080),
       height: ScreenAdapter.height(92),
@@ -100,43 +104,362 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
+  //分类
+  Widget category() {
+    return SizedBox(
+      width: ScreenAdapter.width(1080),
+      height: ScreenAdapter.height(480),
+      child: Obx(
+        () => Swiper(
+          itemCount: controller.categoryList.length ~/ 10,
+          loop: false,
+          pagination: const SwiperPagination(
+            builder: SwiperPagination.rect,
+          ),
+          itemBuilder: (context, index) {
+            return GridView.builder(
+                itemCount: 10,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 5,
+                    crossAxisSpacing: ScreenAdapter.width(20),
+                    mainAxisSpacing: ScreenAdapter.width(20)),
+                itemBuilder: (context, i) {
+                  return InkWell(
+                    child: Column(
+                      children: [
+                        Container(
+                          alignment: Alignment.center,
+                          width: ScreenAdapter.height(140),
+                          height: ScreenAdapter.height(140),
+                          child: Image.network(
+                            'https://miapp.itying.com/${controller.categoryList[index * 10 + i].pic}'
+                                .replaceAll('\\', '/'),
+                            fit: BoxFit.fitHeight,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(
+                              0, ScreenAdapter.height(4), 0, 0),
+                          child: Text(
+                            '${controller.categoryList[index * 10 + i].title}',
+                            style:
+                                TextStyle(fontSize: ScreenAdapter.fontSize(28)),
+                          ),
+                        )
+                      ],
+                    ),
+                    onTap: () {},
+                  );
+                });
+          },
+        ),
+      ),
+    );
+  }
+
+  //banner2
+  Widget banner2() {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(
+          ScreenAdapter.width(20), 0, ScreenAdapter.width(20), 0),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          image: const DecorationImage(
+            image: AssetImage('assets/images/xiaomiBanner2.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        height: ScreenAdapter.height(420),
+      ),
+    );
+  }
+
+  //热销商品
+  Widget bestSelling() {
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.fromLTRB(
+              ScreenAdapter.width(30),
+              ScreenAdapter.height(40),
+              ScreenAdapter.width(30),
+              ScreenAdapter.height(20)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                '热销臻选',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: ScreenAdapter.fontSize(46),
+                ),
+              ),
+              Text(
+                '更多手机推荐 >',
+                style: TextStyle(
+                  fontSize: ScreenAdapter.fontSize(38),
+                  color: Colors.grey,
+                ),
+              )
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(ScreenAdapter.width(20), 0,
+              ScreenAdapter.width(20), ScreenAdapter.height(20)),
+          child: Row(
+            children: [
+              Expanded(
+                flex: 1,
+                child: SizedBox(
+                  height: ScreenAdapter.height(738),
+                  child: Obx(
+                    () => Swiper(
+                      itemCount: controller.bellSellingSwiperList.length,
+                      pagination: const SwiperPagination(
+                          builder: SwiperPagination.rect),
+                      autoplay: true,
+                      loop: true,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Image.network(
+                          'https://miapp.itying.com/${controller.bellSellingSwiperList[index].pic}'
+                              .replaceAll('\\', '/'),
+                          fit: BoxFit.fill,
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(width: ScreenAdapter.width(20)),
+              Expanded(
+                flex: 1,
+                child: SizedBox(
+                  height: ScreenAdapter.height(738),
+                  child: Obx(
+                    () => Column(
+                      children: controller.bellSellingGoodsList
+                          .asMap()
+                          .entries
+                          .map((entrie) {
+                        var value = entrie.value;
+                        int key = entrie.key;
+                        String pic = "https://miapp.itying.com/${value.pic}"
+                            .replaceAll('\\', '/');
+
+                        return Expanded(
+                          flex: 1,
+                          child: Container(
+                            color: const Color.fromRGBO(246, 246, 246, 1),
+                            margin: EdgeInsets.fromLTRB(0, 0, 0,
+                                ScreenAdapter.height(key == 2 ? 0 : 20)),
+                            padding: EdgeInsets.fromLTRB(
+                              ScreenAdapter.height(20),
+                              ScreenAdapter.height(10),
+                              ScreenAdapter.height(10),
+                              ScreenAdapter.height(10),
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  flex: 3,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        '${value.title}',
+                                        style: TextStyle(
+                                          fontSize: ScreenAdapter.fontSize(38),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                          height: ScreenAdapter.height(10)),
+                                      Text(
+                                        '${value.subTitle}',
+                                        style: TextStyle(
+                                          fontSize: ScreenAdapter.fontSize(28),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                          height: ScreenAdapter.height(10)),
+                                      Text(
+                                        '众筹价¥${value.price}元',
+                                        style: TextStyle(
+                                          fontSize: ScreenAdapter.fontSize(34),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 2,
+                                  child: Image.network(
+                                    pic,
+                                    fit: BoxFit.fitHeight,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        )
+      ],
+    );
+  }
+
+  //推荐商品
+  Widget bestGoods() {
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.fromLTRB(
+              ScreenAdapter.width(20),
+              ScreenAdapter.height(20),
+              ScreenAdapter.width(20),
+              ScreenAdapter.height(20)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                '省心优惠',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: ScreenAdapter.fontSize(46),
+                ),
+              ),
+              Text(
+                '全部优惠 >',
+                style: TextStyle(
+                  fontSize: ScreenAdapter.fontSize(38),
+                  color: Colors.grey,
+                ),
+              )
+            ],
+          ),
+        ),
+        Obx(
+          () => Container(
+            padding: EdgeInsets.all(ScreenAdapter.width(26)),
+            color: const Color.fromRGBO(246, 246, 246, 1),
+            child: MasonryGridView.count(
+              crossAxisCount: 2,
+              mainAxisSpacing: ScreenAdapter.width(26),
+              crossAxisSpacing: ScreenAdapter.height(26),
+              itemCount: controller.bestGoodsList.length,
+              //自动收缩元素，宽度自适应
+              shrinkWrap: true,
+              //禁止滑动
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                String pic =
+                    "https://miapp.itying.com/${controller.bestGoodsList[index].pic}"
+                        .replaceAll('\\', '/');
+                String title = controller.bestGoodsList[index].title!;
+                String subTitle =
+                    controller.bestGoodsList[index].subTitle == null
+                        ? controller.bestGoodsList[index].subTitle!
+                        : 'flutter开发小米商城';
+                int price = controller.bestGoodsList[index].price!;
+
+                return Container(
+                  padding: EdgeInsets.all(ScreenAdapter.width(20)),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(ScreenAdapter.width(10)),
+                        child: Image.network(
+                          pic,
+                          fit: BoxFit.fitWidth,
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.fromLTRB(
+                          ScreenAdapter.height(0),
+                          ScreenAdapter.height(5),
+                          ScreenAdapter.height(0),
+                          ScreenAdapter.height(5),
+                        ),
+                        child: Text(
+                          title,
+                          style: TextStyle(
+                            fontSize: ScreenAdapter.fontSize(38),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.fromLTRB(
+                          ScreenAdapter.height(0),
+                          ScreenAdapter.height(5),
+                          ScreenAdapter.height(0),
+                          ScreenAdapter.height(5),
+                        ),
+                        child: Text(
+                          subTitle,
+                          style:
+                              TextStyle(fontSize: ScreenAdapter.fontSize(32)),
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.fromLTRB(
+                          ScreenAdapter.height(0),
+                          ScreenAdapter.height(5),
+                          ScreenAdapter.height(0),
+                          ScreenAdapter.height(5),
+                        ),
+                        child: Text(
+                          '¥$price',
+                          style: TextStyle(
+                            fontSize: ScreenAdapter.fontSize(32),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  //首页内容
   Widget homeBody(statusBarHeight) {
     return Positioned(
       top: -statusBarHeight,
       bottom: 0,
       left: 0,
       right: 0,
-      //https://www.itying.com/images/focus/focus02.png
       child: ListView(
         controller: controller.scrollController,
         children: [
-          focusContent(),
-          bannerContent(),
-          Container(
-            width: ScreenAdapter.width(1080),
-            height: ScreenAdapter.height(470),
-            color: Colors.red,
-            child: Swiper(
-              itemCount: 2,
-              pagination: const SwiperPagination(
-                builder: SwiperPagination.rect,
-              ),
-              itemBuilder: (context, index) {
-                return const Text('data');
-                // return GridView.builder(gridDelegate:, itemBuilder: (context,index) {
-                //   return Column(
-                //     children: [
-                //       SizedBox(
-                //         width: ScreenAdapter.height(180),
-                //         height: ScreenAdapter.height(180),
-                //         child: Image.network('https://miapp.itying.com/public/upload/01.png',fit: BoxFit.cover,),
-                //       )
-                //     ],
-                //   );
-                // });
-              },
-            ),
-          )
+          focus(),
+          banner(),
+          category(),
+          banner2(),
+          bestSelling(),
+          bestGoods(),
         ],
       ),
     );

@@ -18,6 +18,7 @@ samples, guidance on mobile development, and a full API reference.
 ## Utils
 
 ```
-flutter_screenutil 屏幕适配
+flutter_screenutil 屏幕适配插件
 flutter_swiper_view 轮播图插件
+flutter_staggered_grid_view 瀑布流插件
 ```

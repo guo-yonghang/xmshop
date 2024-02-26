@@ -2,6 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<!-- 添加网络权限声明 -->
+	<key>NSAppTransportSecurity</key>
+    <dict>
+        <!-- 允许应用访问任意网址 -->
+        <key>NSAllowsArbitraryLoads</key>
+        <true/>
+    </dict>
+	<!-- 默认配置 -->
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
