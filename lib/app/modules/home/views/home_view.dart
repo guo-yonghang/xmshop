@@ -1,15 +1,16 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 import 'package:xmshop/app/service/screenAdapter.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import '../controllers/home_controller.dart';
+import '../../../service/httpsClient.dart';
 import '../../../service/keepAliceWrapper.dart';
 import '../../../service/ityingFonts.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({Key? key}) : super(key: key);
+
   //导航栏
   Widget appBar() {
     return Positioned(
@@ -19,52 +20,57 @@ class HomeView extends GetView<HomeController> {
       child: Obx(
         () => AppBar(
           centerTitle: true,
+          elevation: 0,
           backgroundColor:
               controller.flag.value ? Colors.white : Colors.transparent,
-          elevation: 0,
           leading: controller.flag.value
               ? null
               : const Icon(
                   ItyingFonts.xiaomi,
                   color: Colors.white,
                 ),
-          title: AnimatedContainer(
-            width: controller.flag.value
-                ? ScreenAdapter.width(800)
-                : ScreenAdapter.width(620),
-            height: ScreenAdapter.height(96),
-            decoration: BoxDecoration(
-              color: const Color.fromARGB(230, 252, 243, 236),
-              borderRadius: BorderRadius.circular(30),
-            ),
-            duration: const Duration(milliseconds: 300),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                    padding: EdgeInsets.fromLTRB(
-                        ScreenAdapter.width(34), 0, ScreenAdapter.width(10), 0),
-                    child: const Icon(Icons.search, color: Colors.black54)),
-                Text(
-                  "手机",
-                  style: TextStyle(
-                    color: Colors.black54,
-                    fontSize: ScreenAdapter.fontSize(40),
+          title: InkWell(
+            onTap: () {
+              Get.toNamed('/search');
+            },
+            child: AnimatedContainer(
+              width: controller.flag.value
+                  ? ScreenAdapter.width(800)
+                  : ScreenAdapter.width(620),
+              height: ScreenAdapter.height(96),
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(230, 252, 243, 236),
+                borderRadius: BorderRadius.circular(30),
+              ),
+              duration: const Duration(milliseconds: 300),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                      padding: EdgeInsets.fromLTRB(ScreenAdapter.width(34), 0,
+                          ScreenAdapter.width(10), 0),
+                      child: const Icon(Icons.search, color: Colors.black54)),
+                  Text(
+                    "手机",
+                    style: TextStyle(
+                      color: Colors.black54,
+                      fontSize: ScreenAdapter.fontSize(40),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           actions: [
             IconButton(
               onPressed: () {},
               icon: Icon(Icons.qr_code,
-                  color: controller.flag.value ? Colors.black : Colors.white),
+                  color: controller.flag.value ? Colors.black87 : Colors.white),
             ),
             IconButton(
               onPressed: () {},
               icon: Icon(Icons.message,
-                  color: controller.flag.value ? Colors.black : Colors.white),
+                  color: controller.flag.value ? Colors.black87 : Colors.white),
             ),
           ],
         ),
@@ -85,8 +91,7 @@ class HomeView extends GetView<HomeController> {
           loop: true,
           itemBuilder: (BuildContext context, int index) {
             return Image.network(
-              'https://miapp.itying.com/${controller.swiperList[index].pic}'
-                  .replaceAll('\\', '/'),
+              HttpsClient.replaceUrl(controller.swiperList[index].pic!),
               fit: BoxFit.fill,
             );
           },
@@ -126,14 +131,15 @@ class HomeView extends GetView<HomeController> {
                 itemBuilder: (context, i) {
                   return InkWell(
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
                           alignment: Alignment.center,
                           width: ScreenAdapter.height(140),
                           height: ScreenAdapter.height(140),
                           child: Image.network(
-                            'https://miapp.itying.com/${controller.categoryList[index * 10 + i].pic}'
-                                .replaceAll('\\', '/'),
+                            HttpsClient.replaceUrl(
+                                controller.categoryList[index * 10 + i].pic!),
                             fit: BoxFit.fitHeight,
                           ),
                         ),
@@ -224,8 +230,8 @@ class HomeView extends GetView<HomeController> {
                       loop: true,
                       itemBuilder: (BuildContext context, int index) {
                         return Image.network(
-                          'https://miapp.itying.com/${controller.bellSellingSwiperList[index].pic}'
-                              .replaceAll('\\', '/'),
+                          HttpsClient.replaceUrl(
+                              controller.bellSellingSwiperList[index].pic!),
                           fit: BoxFit.fill,
                         );
                       },
@@ -246,13 +252,15 @@ class HomeView extends GetView<HomeController> {
                           .map((entrie) {
                         var value = entrie.value;
                         int key = entrie.key;
-                        String pic = "https://miapp.itying.com/${value.pic}"
-                            .replaceAll('\\', '/');
 
                         return Expanded(
                           flex: 1,
                           child: Container(
-                            color: const Color.fromRGBO(246, 246, 246, 1),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(
+                                  ScreenAdapter.height(10)),
+                              color: const Color.fromRGBO(246, 246, 246, 1),
+                            ),
                             margin: EdgeInsets.fromLTRB(0, 0, 0,
                                 ScreenAdapter.height(key == 2 ? 0 : 20)),
                             padding: EdgeInsets.fromLTRB(
@@ -299,7 +307,7 @@ class HomeView extends GetView<HomeController> {
                                 Expanded(
                                   flex: 2,
                                   child: Image.network(
-                                    pic,
+                                    HttpsClient.replaceUrl(value.pic!),
                                     fit: BoxFit.fitHeight,
                                   ),
                                 ),
@@ -364,14 +372,8 @@ class HomeView extends GetView<HomeController> {
               //禁止滑动
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
-                String pic =
-                    "https://miapp.itying.com/${controller.bestGoodsList[index].pic}"
-                        .replaceAll('\\', '/');
                 String title = controller.bestGoodsList[index].title!;
-                String subTitle =
-                    controller.bestGoodsList[index].subTitle == null
-                        ? controller.bestGoodsList[index].subTitle!
-                        : 'flutter开发小米商城';
+                String subTitle = controller.bestGoodsList[index].subTitle!;
                 int price = controller.bestGoodsList[index].price!;
 
                 return Container(
@@ -386,7 +388,8 @@ class HomeView extends GetView<HomeController> {
                       Container(
                         padding: EdgeInsets.all(ScreenAdapter.width(10)),
                         child: Image.network(
-                          pic,
+                          HttpsClient.replaceUrl(
+                              controller.bestGoodsList[index].pic!),
                           fit: BoxFit.fitWidth,
                         ),
                       ),
@@ -413,7 +416,7 @@ class HomeView extends GetView<HomeController> {
                           ScreenAdapter.height(5),
                         ),
                         child: Text(
-                          subTitle,
+                          subTitle.isNotEmpty ? subTitle : 'flutter开发小米商城项目',
                           style:
                               TextStyle(fontSize: ScreenAdapter.fontSize(32)),
                         ),

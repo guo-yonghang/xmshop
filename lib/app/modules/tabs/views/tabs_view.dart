@@ -18,23 +18,23 @@ class TabsView extends GetView<TabsController> {
             items: const [
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
-                label: 'Home',
+                label: '首页',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.category),
-                label: 'Category',
+                label: '分类',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.favorite),
-                label: 'Give',
+                label: '服务',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.shopping_cart),
-                label: 'Cart',
+                label: '购物车',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.person),
-                label: 'User',
+                label: '我的',
               ),
             ],
           ),

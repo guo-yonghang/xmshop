@@ -19,6 +19,7 @@ void main() {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           title: "Application",
+          defaultTransition: Transition.rightToLeft,
           initialRoute: AppPages.INITIAL,
           getPages: AppPages.routes,
         );
