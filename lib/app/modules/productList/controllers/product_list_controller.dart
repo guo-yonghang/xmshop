@@ -32,6 +32,10 @@ class ProductListController extends GetxController {
   //网络请求
   HttpsClient httpsClient = HttpsClient();
 
+  String? keywords = Get.arguments['keywords'];
+  String? cid = Get.arguments['cid'];
+  String apiUri = "";
+
   @override
   void onInit() {
     super.onInit();
@@ -74,8 +78,14 @@ class ProductListController extends GetxController {
   void getProductListData() async {
     if (flag) return;
     flag = true;
-    var response = await httpsClient.get(
-        '/api/plist?cid=${Get.arguments['id']}&page=${page.value}&pageSize=10&sort=${sort.value}');
+    if (cid != null) {
+      apiUri =
+          '/api/plist?cid=${cid}&page=${page.value}&pageSize=10&sort=${sort.value}';
+    } else {
+      apiUri =
+          '/api/plist?search=${keywords}&page=${page.value}&pageSize=10&sort=${sort.value}';
+    }
+    var response = await httpsClient.get(apiUri);
     if (response != null) {
       PlistModel plist = PlistModel.fromJson(response.data);
       productList.addAll(plist.result!);

@@ -10,164 +10,162 @@ class ProductListView extends GetView<ProductListController> {
   //商品列表
   Widget produrctListWidget() {
     return Obx(
-      () => controller.productList.isEmpty
-          ? loadmoreWidget()
-          : ListView.builder(
-              controller: controller.scrollController,
-              itemCount: controller.productList.length,
-              padding: EdgeInsets.fromLTRB(
-                ScreenAdapter.width(26),
-                ScreenAdapter.height(146),
-                ScreenAdapter.width(26),
-                0,
-              ),
-              itemBuilder: ((context, index) {
-                String title = controller.productList[index].title!;
-                String subTitle = controller.productList[index].subTitle!;
-                int price = controller.productList[index].price!;
+      () => ListView.builder(
+          controller: controller.scrollController,
+          itemCount: controller.productList.length,
+          padding: EdgeInsets.fromLTRB(
+            ScreenAdapter.width(26),
+            ScreenAdapter.height(146),
+            ScreenAdapter.width(26),
+            0,
+          ),
+          itemBuilder: ((context, index) {
+            String title = controller.productList[index].title!;
+            String subTitle = controller.productList[index].subTitle!;
+            int price = controller.productList[index].price!;
 
-                return Column(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(bottom: ScreenAdapter.height(26)),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white,
+            return Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(bottom: ScreenAdapter.height(26)),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(ScreenAdapter.width(60)),
+                        width: ScreenAdapter.width(400),
+                        height: ScreenAdapter.height(600),
+                        child: Image.network(
+                          HttpsClient.replaceUrl(
+                              controller.productList[index].pic!),
+                          fit: BoxFit.fitHeight,
+                        ),
                       ),
-                      child: Row(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.all(ScreenAdapter.width(60)),
-                            width: ScreenAdapter.width(400),
-                            height: ScreenAdapter.height(600),
-                            child: Image.network(
-                              HttpsClient.replaceUrl(
-                                  controller.productList[index].pic!),
-                              fit: BoxFit.fitHeight,
+                      Expanded(
+                        flex: 1,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  bottom: ScreenAdapter.height(20)),
+                              child: Text(
+                                title,
+                                style: TextStyle(
+                                  fontSize: ScreenAdapter.fontSize(42),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      bottom: ScreenAdapter.height(20)),
-                                  child: Text(
-                                    title,
-                                    style: TextStyle(
-                                      fontSize: ScreenAdapter.fontSize(42),
-                                      fontWeight: FontWeight.bold,
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  bottom: ScreenAdapter.height(20)),
+                              child: Text(
+                                subTitle,
+                                style: TextStyle(
+                                  fontSize: ScreenAdapter.fontSize(34),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(
+                                  bottom: ScreenAdapter.height(20)),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          'CUP',
+                                          style: TextStyle(
+                                            fontSize:
+                                                ScreenAdapter.fontSize(34),
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black54,
+                                          ),
+                                        ),
+                                        Text(
+                                          'Helio G25',
+                                          style: TextStyle(
+                                            fontSize:
+                                                ScreenAdapter.fontSize(34),
+                                            color: Colors.black54,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      bottom: ScreenAdapter.height(20)),
-                                  child: Text(
-                                    subTitle,
-                                    style: TextStyle(
-                                      fontSize: ScreenAdapter.fontSize(34),
+                                  Expanded(
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          '高清拍摄',
+                                          style: TextStyle(
+                                            fontSize:
+                                                ScreenAdapter.fontSize(34),
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black54,
+                                          ),
+                                        ),
+                                        Text(
+                                          '800亿像素',
+                                          style: TextStyle(
+                                            fontSize:
+                                                ScreenAdapter.fontSize(34),
+                                            color: Colors.black54,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.only(
-                                      bottom: ScreenAdapter.height(20)),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Column(
-                                          children: [
-                                            Text(
-                                              'CUP',
-                                              style: TextStyle(
-                                                fontSize:
-                                                    ScreenAdapter.fontSize(34),
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.black54,
-                                              ),
-                                            ),
-                                            Text(
-                                              'Helio G25',
-                                              style: TextStyle(
-                                                fontSize:
-                                                    ScreenAdapter.fontSize(34),
-                                                color: Colors.black54,
-                                              ),
-                                            ),
-                                          ],
+                                  Expanded(
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          '超大屏',
+                                          style: TextStyle(
+                                            fontSize:
+                                                ScreenAdapter.fontSize(34),
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black54,
+                                          ),
                                         ),
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          children: [
-                                            Text(
-                                              '高清拍摄',
-                                              style: TextStyle(
-                                                fontSize:
-                                                    ScreenAdapter.fontSize(34),
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.black54,
-                                              ),
-                                            ),
-                                            Text(
-                                              '800亿像素',
-                                              style: TextStyle(
-                                                fontSize:
-                                                    ScreenAdapter.fontSize(34),
-                                                color: Colors.black54,
-                                              ),
-                                            ),
-                                          ],
+                                        Text(
+                                          '6.1英寸',
+                                          style: TextStyle(
+                                            fontSize:
+                                                ScreenAdapter.fontSize(34),
+                                            color: Colors.black54,
+                                          ),
                                         ),
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          children: [
-                                            Text(
-                                              '超大屏',
-                                              style: TextStyle(
-                                                fontSize:
-                                                    ScreenAdapter.fontSize(34),
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.black54,
-                                              ),
-                                            ),
-                                            Text(
-                                              '6.1英寸',
-                                              style: TextStyle(
-                                                fontSize:
-                                                    ScreenAdapter.fontSize(34),
-                                                color: Colors.black54,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  '¥$price',
-                                  style: TextStyle(
-                                    fontSize: ScreenAdapter.fontSize(38),
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          )
-                        ],
-                      ),
-                    ),
-                    controller.productList.length - 1 == index
-                        ? loadmoreWidget()
-                        : Container(),
-                  ],
-                );
-              })),
+                            Text(
+                              '¥$price',
+                              style: TextStyle(
+                                fontSize: ScreenAdapter.fontSize(38),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                controller.productList.length - 1 == index
+                    ? loadmoreWidget()
+                    : Container(),
+              ],
+            );
+          })),
     );
   }
 
@@ -272,7 +270,7 @@ class ProductListView extends GetView<ProductListController> {
         actions: const [Text('')],
         title: InkWell(
           onTap: () {
-            Get.toNamed('/search');
+            Get.offAndToNamed('/search');
           },
           child: Container(
             width: ScreenAdapter.width(900),
@@ -289,7 +287,7 @@ class ProductListView extends GetView<ProductListController> {
                         ScreenAdapter.width(34), 0, ScreenAdapter.width(10), 0),
                     child: const Icon(Icons.search, color: Colors.black54)),
                 Text(
-                  "手机",
+                  controller.keywords ?? '搜索商品',
                   style: TextStyle(
                     color: Colors.black54,
                     fontSize: ScreenAdapter.fontSize(40),
@@ -300,11 +298,15 @@ class ProductListView extends GetView<ProductListController> {
           ),
         ),
       ),
-      body: Stack(
-        children: [
-          produrctListWidget(),
-          subHeaderWidget(),
-        ],
+      body: Obx(
+        () => controller.productList.isEmpty
+            ? loadmoreWidget()
+            : Stack(
+                children: [
+                  produrctListWidget(),
+                  subHeaderWidget(),
+                ],
+              ),
       ),
     );
   }

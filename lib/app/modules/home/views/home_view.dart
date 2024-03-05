@@ -375,68 +375,77 @@ class HomeView extends GetView<HomeController> {
                 String title = controller.bestGoodsList[index].title!;
                 String subTitle = controller.bestGoodsList[index].subTitle!;
                 int price = controller.bestGoodsList[index].price!;
+                String sId = controller.bestGoodsList[index].sId!;
 
-                return Container(
-                  padding: EdgeInsets.all(ScreenAdapter.width(20)),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(ScreenAdapter.width(10)),
-                        child: Image.network(
-                          HttpsClient.replaceUrl(
-                              controller.bestGoodsList[index].pic!),
-                          fit: BoxFit.fitWidth,
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.fromLTRB(
-                          ScreenAdapter.height(0),
-                          ScreenAdapter.height(5),
-                          ScreenAdapter.height(0),
-                          ScreenAdapter.height(5),
-                        ),
-                        child: Text(
-                          title,
-                          style: TextStyle(
-                            fontSize: ScreenAdapter.fontSize(38),
-                            fontWeight: FontWeight.bold,
+                return InkWell(
+                  onTap: () {
+                    Get.toNamed(
+                      '/product-content',
+                      arguments: {"id": sId},
+                    );
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(ScreenAdapter.width(20)),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(ScreenAdapter.width(10)),
+                          child: Image.network(
+                            HttpsClient.replaceUrl(
+                                controller.bestGoodsList[index].pic!),
+                            fit: BoxFit.fitWidth,
                           ),
                         ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.fromLTRB(
-                          ScreenAdapter.height(0),
-                          ScreenAdapter.height(5),
-                          ScreenAdapter.height(0),
-                          ScreenAdapter.height(5),
-                        ),
-                        child: Text(
-                          subTitle.isNotEmpty ? subTitle : 'flutter开发小米商城项目',
-                          style:
-                              TextStyle(fontSize: ScreenAdapter.fontSize(32)),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.fromLTRB(
-                          ScreenAdapter.height(0),
-                          ScreenAdapter.height(5),
-                          ScreenAdapter.height(0),
-                          ScreenAdapter.height(5),
-                        ),
-                        child: Text(
-                          '¥$price',
-                          style: TextStyle(
-                            fontSize: ScreenAdapter.fontSize(32),
-                            fontWeight: FontWeight.bold,
+                        Container(
+                          padding: EdgeInsets.fromLTRB(
+                            ScreenAdapter.height(0),
+                            ScreenAdapter.height(5),
+                            ScreenAdapter.height(0),
+                            ScreenAdapter.height(5),
+                          ),
+                          child: Text(
+                            title,
+                            style: TextStyle(
+                              fontSize: ScreenAdapter.fontSize(38),
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                        Container(
+                          padding: EdgeInsets.fromLTRB(
+                            ScreenAdapter.height(0),
+                            ScreenAdapter.height(5),
+                            ScreenAdapter.height(0),
+                            ScreenAdapter.height(5),
+                          ),
+                          child: Text(
+                            subTitle.isNotEmpty ? subTitle : 'flutter开发小米商城项目',
+                            style:
+                                TextStyle(fontSize: ScreenAdapter.fontSize(32)),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.fromLTRB(
+                            ScreenAdapter.height(0),
+                            ScreenAdapter.height(5),
+                            ScreenAdapter.height(0),
+                            ScreenAdapter.height(5),
+                          ),
+                          child: Text(
+                            '¥$price',
+                            style: TextStyle(
+                              fontSize: ScreenAdapter.fontSize(32),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },
