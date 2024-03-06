@@ -1,8 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xmshop/app/modules/productContent/views/second_page_view.dart';
+import 'package:xmshop/app/modules/productContent/views/third_page_view.dart';
 import '../controllers/product_content_controller.dart';
 import '../../../service/screenAdapter.dart';
+import './first_page_view.dart';
 
 class ProductContentView extends GetView<ProductContentController> {
   const ProductContentView({Key? key}) : super(key: key);
@@ -82,7 +84,9 @@ class ProductContentView extends GetView<ProductContentController> {
             height: ScreenAdapter.height(88),
             child: Obx(
               () => ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Get.back();
+                },
                 style: ButtonStyle(
                   elevation: MaterialStateProperty.all(0),
                   padding: MaterialStateProperty.all(const EdgeInsets.all(0)),
@@ -220,24 +224,9 @@ class ProductContentView extends GetView<ProductContentController> {
       controller: controller.scrollController,
       child: Column(
         children: [
-          Container(
-            key: controller.gk1,
-            width: ScreenAdapter.width(1080),
-            height: ScreenAdapter.height(1200),
-            color: Colors.red,
-          ),
-          Container(
-            key: controller.gk2,
-            width: ScreenAdapter.width(1080),
-            height: ScreenAdapter.height(1200),
-            color: Colors.green,
-          ),
-          Container(
-            key: controller.gk3,
-            width: ScreenAdapter.width(1080),
-            height: ScreenAdapter.height(1200),
-            color: Colors.blue,
-          ),
+          FirstPageView(),
+          SecondPageView(),
+          ThirdPageView(),
         ],
       ),
     );
